@@ -96,7 +96,29 @@ create policy "Admin can delete contacts"
   using (true);
 
 -- ============================================
--- 7. Settings Table (admin-configurable key-value store)
+-- 7. Analytics Table (track visitor events)
+-- ============================================
+create table if not exists analytics (
+  id uuid default gen_random_uuid() primary key,
+  event text not null,
+  page text,
+  meta text,
+  created_at timestamp with time zone default now()
+);
+
+alter table analytics enable row level security;
+
+create policy "Anyone can insert analytics"
+  on analytics for insert
+  with check (true);
+
+create policy "Admin can read analytics"
+  on analytics for select
+  to authenticated
+  using (true);
+
+-- ============================================
+-- 8. Settings Table (admin-configurable key-value store)
 -- ============================================
 create table if not exists settings (
   key text primary key,

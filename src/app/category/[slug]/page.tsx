@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Item } from "@/lib/types";
 import ItemImageSlider from "@/components/ItemImageSlider";
+import PageTracker from "@/components/PageTracker";
 
 export const revalidate = 60;
 
@@ -33,6 +34,7 @@ export default async function CategoryPage({
   return (
     <>
       <Navbar />
+      <PageTracker page={`category/${slug}`} meta={category.name} />
       <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
         <Link
           href="/"

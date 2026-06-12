@@ -11,6 +11,7 @@ export default function Navbar({ minimal = false }: { minimal?: boolean }) {
   const [contactOpen, setContactOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [contactPhone, setContactPhone] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,6 +22,12 @@ export default function Navbar({ minimal = false }: { minimal?: boolean }) {
       .select("*")
       .order("created_at", { ascending: true })
       .then(({ data }) => setCategories(data || []));
+    supabase
+      .from("settings")
+      .select("value")
+      .eq("key", "contact_phone")
+      .single()
+      .then(({ data }) => { if (data) setContactPhone(data.value); });
   }, [minimal]);
 
   useEffect(() => {
@@ -116,7 +123,7 @@ export default function Navbar({ minimal = false }: { minimal?: boolean }) {
       </header>
 
       {!minimal && (
-        <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
+        <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} contactPhone={contactPhone} />
       )}
     </>
   );

@@ -3,9 +3,9 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/lib/types";
-import { ArrowRight, Star, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, Star, Phone } from "lucide-react";
 import HeroSlider from "@/components/HeroSlider";
-import ContactForm from "@/components/ContactForm";
+import PageTracker from "@/components/PageTracker";
 
 export const revalidate = 60;
 
@@ -29,6 +29,7 @@ export default async function HomePage() {
   return (
     <>
       <Navbar />
+      <PageTracker page="home" />
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-16 md:py-24">
@@ -134,50 +135,6 @@ export default async function HomePage() {
           </div>
         )}
       </main>
-
-      {/* Contact Section */}
-      <section className="bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-16">
-        <div className="max-w-2xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-white/80 border border-rose-200 rounded-full px-4 py-1.5 mb-4 shadow-sm">
-              <MessageCircle size={13} className="text-rose-400" />
-              <span className="text-xs font-semibold text-rose-600">Get in Touch</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Have a <span className="text-rose-500">Question?</span>
-            </h2>
-            <p className="text-gray-400 mt-2 text-sm">
-              Call us directly or send a message below
-            </p>
-          </div>
-
-          {/* Call Now Card */}
-          <a
-            href={`tel:${contactPhone}`}
-            className="flex items-center justify-between bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-2xl px-6 py-4 mb-4 shadow-lg hover:shadow-rose-300 hover:scale-[1.01] transition-all group"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                <Phone size={22} className="text-white" />
-              </div>
-              <div>
-                <p className="text-xs font-medium text-rose-100">Tap to Call</p>
-                <p className="text-2xl font-bold tracking-wide">{contactPhone}</p>
-              </div>
-            </div>
-            <div className="text-white/60 text-sm font-medium">Call Now →</div>
-          </a>
-
-          {/* Query Form */}
-          <div className="bg-white rounded-2xl shadow-md border border-rose-100 p-6 md:p-8">
-            <p className="text-sm font-semibold text-gray-600 mb-4 flex items-center gap-2">
-              <MessageCircle size={15} className="text-rose-400" />
-              Or send us a message
-            </p>
-            <ContactForm />
-          </div>
-        </div>
-      </section>
 
       {/* Footer */}
       <footer className="bg-white border-t border-rose-100 py-8 mt-6">
