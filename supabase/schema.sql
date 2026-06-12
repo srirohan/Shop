@@ -40,6 +40,12 @@ create policy "Admin can insert categories"
   to authenticated
   with check (true);
 
+create policy "Admin can update categories"
+  on categories for update
+  to authenticated
+  using (true)
+  with check (true);
+
 create policy "Admin can delete categories"
   on categories for delete
   to authenticated
@@ -48,6 +54,12 @@ create policy "Admin can delete categories"
 create policy "Admin can insert items"
   on items for insert
   to authenticated
+  with check (true);
+
+create policy "Admin can update items"
+  on items for update
+  to authenticated
+  using (true)
   with check (true);
 
 create policy "Admin can delete items"
