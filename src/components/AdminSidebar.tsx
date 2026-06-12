@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Sparkles, LayoutGrid, Package, ShoppingBag, LogOut,
-  UserCircle, ChevronLeft, ChevronRight,
+  UserCircle, ChevronLeft, ChevronRight, Users,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
@@ -15,6 +15,7 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutGrid },
   { href: "/admin/categories", label: "Categories", icon: ShoppingBag },
   { href: "/admin/items", label: "Items", icon: Package },
+  { href: "/admin/user-records", label: "User Records", icon: Users },
   { href: "/admin/profile", label: "Profile", icon: UserCircle },
 ];
 

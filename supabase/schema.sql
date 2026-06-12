@@ -68,7 +68,35 @@ create policy "Admin can delete items"
   using (true);
 
 -- ============================================
--- 6. Storage Bucket Setup
+-- 6. Contacts Table (User inquiry form submissions)
+-- ============================================
+create table if not exists contacts (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  phone text,
+  email text,
+  message text not null,
+  created_at timestamp with time zone default now()
+);
+
+alter table contacts enable row level security;
+
+create policy "Anyone can submit contact"
+  on contacts for insert
+  with check (true);
+
+create policy "Admin can read contacts"
+  on contacts for select
+  to authenticated
+  using (true);
+
+create policy "Admin can delete contacts"
+  on contacts for delete
+  to authenticated
+  using (true);
+
+-- ============================================
+-- 7. Storage Bucket Setup
 -- Supabase Dashboard > Storage > New Bucket
 --   Name: images
 --   Public: YES (checkbox on karo)

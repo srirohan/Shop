@@ -6,6 +6,15 @@ export type Category = {
   created_at: string;
 };
 
+export type Contact = {
+  id: string;
+  name: string;
+  phone: string | null;
+  email: string | null;
+  message: string;
+  created_at: string;
+};
+
 export type Item = {
   id: string;
   category_id: string;

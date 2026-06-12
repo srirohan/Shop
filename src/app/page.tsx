@@ -3,8 +3,9 @@ import Navbar from "@/components/Navbar";
 import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/lib/types";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, MessageCircle } from "lucide-react";
 import HeroSlider from "@/components/HeroSlider";
+import ContactForm from "@/components/ContactForm";
 
 export const revalidate = 60;
 
@@ -130,6 +131,27 @@ export default async function HomePage() {
           </div>
         )}
       </main>
+
+      {/* Contact Section */}
+      <section className="bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-16">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 bg-white/80 border border-rose-200 rounded-full px-4 py-1.5 mb-4 shadow-sm">
+              <MessageCircle size={13} className="text-rose-400" />
+              <span className="text-xs font-semibold text-rose-600">Humse Sampark Karein</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+              Koi <span className="text-rose-500">Sawaal</span> Hai?
+            </h2>
+            <p className="text-gray-400 mt-2 text-sm">
+              Apna naam aur message bhejein — hum jaldi reply karenge
+            </p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-md border border-rose-100 p-6 md:p-8">
+            <ContactForm />
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-white border-t border-rose-100 py-8 mt-6">
