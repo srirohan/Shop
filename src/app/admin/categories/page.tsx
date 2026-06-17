@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Plus, Trash2, Loader2, Upload, Pencil, X, Check } from "lucide-react";
+import { Plus, Trash2, Loader2, Upload, Pencil, X, Check, LayoutGrid, List } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { Category } from "@/lib/types";
@@ -15,6 +15,7 @@ export default function CategoriesPage() {
   const supabase = createClient();
   const [categories, setCategories] = useState<Category[]>([]);
   const [fetching, setFetching] = useState(true);
+  const [view, setView] = useState<"table" | "tile">("table");
 
   // Add modal
   const [showAdd, setShowAdd] = useState(false);
@@ -132,40 +133,52 @@ export default function CategoriesPage() {
       {/* Top bar */}
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-gray-400">{categories.length} categories total</p>
-        <button
-          onClick={() => setShowAdd(true)}
-          className="flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors shadow-sm"
-        >
-          <Plus size={16} /> Add Category
-        </button>
+        <div className="flex items-center gap-2">
+          {/* View toggle */}
+          <div className="flex items-center bg-gray-100 rounded-lg p-0.5">
+            <button onClick={() => setView("table")}
+              className={`p-1.5 rounded-md transition-colors ${view === "table" ? "bg-white shadow-sm text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
+              title="Table view">
+              <List size={15} />
+            </button>
+            <button onClick={() => setView("tile")}
+              className={`p-1.5 rounded-md transition-colors ${view === "tile" ? "bg-white shadow-sm text-rose-500" : "text-gray-400 hover:text-gray-600"}`}
+              title="Tile view">
+              <LayoutGrid size={15} />
+            </button>
+          </div>
+          <button
+            onClick={() => setShowAdd(true)}
+            className="flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors shadow-sm"
+          >
+            <Plus size={16} /> Add Category
+          </button>
+        </div>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Table Header */}
-        <div className="grid grid-cols-[48px_1fr_160px_100px] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-          <div>Image</div>
-          <div>Name</div>
-          <div>Slug</div>
-          <div className="text-right">Actions</div>
+      {fetching ? (
+        <div className="flex justify-center py-16">
+          <Loader2 className="animate-spin text-rose-400" size={24} />
         </div>
+      ) : categories.length === 0 ? (
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 text-center text-gray-400 py-16 text-sm">
+          No categories yet. Click "Add Category" to create one.
+        </div>
+      ) : view === "table" ? (
 
-        {fetching ? (
-          <div className="flex justify-center py-16">
-            <Loader2 className="animate-spin text-rose-400" size={24} />
+        /* ── TABLE VIEW ── */
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="grid grid-cols-[48px_1fr_160px_100px] gap-4 px-5 py-3 bg-gray-50 border-b border-gray-100 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+            <div>Image</div>
+            <div>Name</div>
+            <div>Slug</div>
+            <div className="text-right">Actions</div>
           </div>
-        ) : categories.length === 0 ? (
-          <div className="text-center text-gray-400 py-16 text-sm">
-            No categories yet. Click "Add Category" to create one.
-          </div>
-        ) : (
           <ul className="divide-y divide-gray-50">
             {categories.map((cat) => (
               <li key={cat.id} className="grid grid-cols-[48px_1fr_160px_100px] gap-4 px-5 py-3.5 items-center hover:bg-gray-50/60 transition-colors">
                 {editId === cat.id ? (
-                  /* Edit Row */
                   <div className="col-span-4 grid grid-cols-[48px_1fr_160px_100px] gap-4 items-center">
-                    {/* Edit image */}
                     <div
                       className="relative w-10 h-10 rounded-lg overflow-hidden bg-rose-50 cursor-pointer border-2 border-dashed border-rose-200 hover:border-rose-400 transition-colors flex-shrink-0"
                       onClick={() => editFileRef.current?.click()}
@@ -185,19 +198,13 @@ export default function CategoriesPage() {
                           setEditPreview(URL.createObjectURL(file));
                         }} />
                     </div>
-
-                    {/* Edit name */}
                     <input
                       type="text" value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       className="border border-rose-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-400"
                       autoFocus
                     />
-
-                    {/* Preview slug */}
                     <span className="text-xs text-gray-400 truncate">/{slugify(editName)}</span>
-
-                    {/* Save / Cancel */}
                     <div className="flex items-center gap-1.5 justify-end">
                       <button onClick={() => handleSaveEdit(cat)} disabled={editLoading}
                         className="bg-rose-500 hover:bg-rose-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 disabled:opacity-60 transition-colors">
@@ -210,7 +217,6 @@ export default function CategoriesPage() {
                     </div>
                   </div>
                 ) : (
-                  /* View Row */
                   <>
                     <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-rose-50 flex-shrink-0">
                       {cat.image_url ? (
@@ -236,8 +242,39 @@ export default function CategoriesPage() {
               </li>
             ))}
           </ul>
-        )}
-      </div>
+        </div>
+
+      ) : (
+
+        /* ── TILE VIEW ── */
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+          {categories.map((cat) => (
+            <div key={cat.id} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+              <div className="relative h-36 bg-rose-50">
+                {cat.image_url ? (
+                  <Image src={cat.image_url} alt={cat.name} fill className="object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-4xl">🛍️</div>
+                )}
+              </div>
+              <div className="p-3">
+                <p className="font-semibold text-gray-800 text-sm truncate">{cat.name}</p>
+                <p className="text-xs text-gray-400 truncate">/{cat.slug}</p>
+                <div className="flex gap-1.5 mt-3">
+                  <button onClick={() => startEdit(cat)}
+                    className="flex-1 flex items-center justify-center gap-1 text-xs text-blue-500 bg-blue-50 hover:bg-blue-100 py-1.5 rounded-lg transition-colors font-medium">
+                    <Pencil size={12} /> Edit
+                  </button>
+                  <button onClick={() => handleDelete(cat.id)}
+                    className="flex-1 flex items-center justify-center gap-1 text-xs text-red-500 bg-red-50 hover:bg-red-100 py-1.5 rounded-lg transition-colors font-medium">
+                    <Trash2 size={12} /> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Add Category Modal */}
       {showAdd && (

@@ -19,6 +19,7 @@ export type Item = {
   id: string;
   category_id: string;
   name: string;
+  description?: string | null;
   image_url: string;
   image_urls: string[];
   created_at: string;
