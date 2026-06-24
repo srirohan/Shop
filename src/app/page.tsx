@@ -11,10 +11,11 @@ import PageTracker from "@/components/PageTracker";
 export const revalidate = 60;
 
 const category3DImage: Record<string, string> = {
-  "lady-purse": "/categories/lady-purse.png",
-  "ladies-suit": "/categories/ladies-suit.png",
+  "ladies-purse": "/categories/ladies-purse.png",
+  "ladies-suit": "/categories/ladies-suit-v2.png",
   "home-decor": "/categories/home-decor.png",
   "hair-accessories": "/categories/hair-accessories.png",
+  "handcrafts": "/categories/handcrafts.png",
 };
 
 const categoryTheme: Record<string, { bg: string; imgBg: string; badge: string; glow: string; pill: string; pillText: string; label: string }> = {
@@ -45,7 +46,7 @@ const categoryTheme: Record<string, { bg: string; imgBg: string; badge: string; 
     pillText: "#fce7f3",
     label: "HAIR COLLECTION",
   },
-  "lady-purse": {
+  "ladies-purse": {
     bg: "linear-gradient(145deg,#1a1a2e 0%,#16213e 40%,#0f3460 100%)",
     imgBg: "linear-gradient(135deg,#1e2a4a,#2d4a8a,#4169b8)",
     badge: "linear-gradient(135deg,#93c5fd,#3b82f6)",
@@ -53,6 +54,15 @@ const categoryTheme: Record<string, { bg: string; imgBg: string; badge: string; 
     pill: "rgba(147,197,253,0.18)",
     pillText: "#dbeafe",
     label: "PURSE COLLECTION",
+  },
+  "handcrafts": {
+    bg: "linear-gradient(145deg,#2c1a10 0%,#543018 40%,#7a4524 100%)",
+    imgBg: "linear-gradient(135deg,#3c2010,#6b3b1c,#9c5a30)",
+    badge: "linear-gradient(135deg,#fcd34d,#f59e0b)",
+    glow: "rgba(245,158,11,0.50)",
+    pill: "rgba(252,211,77,0.18)",
+    pillText: "#fef3c7",
+    label: "HANDICRAFT COLLECTION",
   },
 };
 

@@ -44,8 +44,12 @@ export default async function ItemPage({
       <PageTracker page={`item/${id}`} meta={item.name} />
       <PageTracker page={`item/${id}`} meta={item.name} event="item_detail_view" />
       
-      <div className="min-h-[100dvh] bg-[#f7ede4] flex flex-col pt-6 pb-20">
-        <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 w-full">
+      <div className="min-h-[100dvh] bg-[#f7ede4] bg-[radial-gradient(#c0622a22_1.5px,transparent_1.5px)] [background-size:32px_32px] flex flex-col pt-6 pb-20 relative overflow-hidden">
+        
+        {/* Soft top gradient to blend the navbar */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-[#f7ede4] to-transparent pointer-events-none z-0"></div>
+
+        <main className="flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 w-full relative z-10">
           {/* Back Navigation */}
           <Link
             href={`/category/${categorySlug}`}
@@ -103,19 +107,29 @@ export default async function ItemPage({
                 <ShareButton title={item.name} />
               </div>
 
-              {/* Trust badges */}
-              <div className="mt-8 flex items-center justify-center sm:justify-start gap-6 opacity-60">
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-xl">✨</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#2a160f]">Premium</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-xl">🛡️</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#2a160f]">Quality</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <span className="text-xl">🚚</span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#2a160f]">Fast Ship</span>
+              {/* Product Features / Highlights */}
+              <div className="mt-10 pt-8 border-t border-[#dbb99a]/30">
+                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#a66a4f] mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-[#a66a4f]/30"></span>
+                  Why You'll Love It
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-white/40 p-4 rounded-2xl border border-white/50 backdrop-blur-sm hover:bg-white/60 transition-colors">
+                    <h4 className="text-sm font-bold text-[#4a2e23] mb-1">Premium Craft</h4>
+                    <p className="text-xs text-[#6f5344] leading-relaxed">Meticulously designed with attention to every detail for a flawless finish.</p>
+                  </div>
+                  <div className="bg-white/40 p-4 rounded-2xl border border-white/50 backdrop-blur-sm hover:bg-white/60 transition-colors">
+                    <h4 className="text-sm font-bold text-[#4a2e23] mb-1">Luxurious Feel</h4>
+                    <p className="text-xs text-[#6f5344] leading-relaxed">Tailored from handpicked materials to offer unmatched ease and comfort.</p>
+                  </div>
+                  <div className="bg-white/40 p-4 rounded-2xl border border-white/50 backdrop-blur-sm hover:bg-white/60 transition-colors">
+                    <h4 className="text-sm font-bold text-[#4a2e23] mb-1">Timeless Elegance</h4>
+                    <p className="text-xs text-[#6f5344] leading-relaxed">A perfect blend of classic aesthetics and contemporary style.</p>
+                  </div>
+                  <div className="bg-white/40 p-4 rounded-2xl border border-white/50 backdrop-blur-sm hover:bg-white/60 transition-colors">
+                    <h4 className="text-sm font-bold text-[#4a2e23] mb-1">Authentic Assured</h4>
+                    <p className="text-xs text-[#6f5344] leading-relaxed">100% genuine products directly from our exclusive collection.</p>
+                  </div>
                 </div>
               </div>
             </div>

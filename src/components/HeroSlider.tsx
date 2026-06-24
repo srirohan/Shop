@@ -7,10 +7,11 @@ import { ArrowRight } from "lucide-react";
 import { Category } from "@/lib/types";
 
 const fallbackEmoji: Record<string, string> = {
-  "lady-purse": "👜",
+  "ladies-purse": "👜",
   "ladies-suit": "👗",
   "home-decor": "🏠",
   "hair-accessories": "💇",
+  "handcrafts": "🏺",
 };
 
 export default function HeroSlider({ categories }: { categories: Category[] }) {

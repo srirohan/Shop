@@ -51,136 +51,150 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-rose-50">
-      <Navbar minimal />
-      <div className="flex-1 flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen flex flex-col bg-[#f7ede4] bg-[radial-gradient(#c0622a22_1.5px,transparent_1.5px)] [background-size:32px_32px] relative overflow-hidden">
+      
+      {/* Animated Background Orbs */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-gradient-to-br from-[#e8956d]/30 to-[#c0622a]/10 blur-[100px] animate-[float-slow_8s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-[#dbb99a]/40 to-[#a66a4f]/10 blur-[120px] animate-[float-slow_12s_ease-in-out_infinite_reverse]" />
+      </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-rose-400 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-sm">
-              {forgotMode ? (
-                <KeyRound className="text-white" size={20} />
+      <div className="relative z-10 w-full">
+        <Navbar minimal />
+      </div>
+
+      <div className="flex-1 flex items-center justify-center px-4 relative z-10">
+        <div className="w-full max-w-md">
+          {/* Frosted Glass Login Card */}
+          <div className="bg-white/50 backdrop-blur-xl rounded-[2rem] shadow-2xl shadow-[#3d1f10]/10 border border-white/60 p-10 relative overflow-hidden">
+            {/* Inner subtle glow */}
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/40 rounded-full blur-[40px] pointer-events-none"></div>
+            
+            <div className="text-center mb-8 relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#c0622a] to-[#e8956d] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#c0622a]/20 transform transition-transform hover:scale-110 duration-300">
+                {forgotMode ? (
+                  <KeyRound className="text-white" size={28} strokeWidth={2.5} />
+                ) : (
+                  <Sparkles className="text-white" size={28} strokeWidth={2.5} />
+                )}
+              </div>
+              <h1 className="text-3xl font-black text-[#2a160f] tracking-tight">
+                {forgotMode ? "Reset Password" : "Admin Login"}
+              </h1>
+              <p className="text-[#8b674f] text-sm mt-2 font-medium tracking-wide uppercase">Aradhya Collection</p>
+            </div>
+
+            <div className="relative z-10">
+              {resetSent ? (
+                <div className="text-center space-y-6">
+                  <div className="bg-white/60 border border-white rounded-2xl p-6 shadow-sm">
+                    <p className="text-[#c0622a] text-base font-bold mb-2">Reset email sent!</p>
+                    <p className="text-[#6f5344] text-sm leading-relaxed">
+                      Check your inbox at <strong className="text-[#2a160f]">{email}</strong> and follow the link to reset your password.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => { setForgotMode(false); setResetSent(false); }}
+                    className="text-sm text-[#a66a4f] hover:text-[#c0622a] font-bold tracking-widest uppercase transition-colors"
+                  >
+                    ← Back to Login
+                  </button>
+                </div>
+
+              ) : forgotMode ? (
+                /* Forgot Password Form */
+                <form onSubmit={handleForgotPassword} className="space-y-5">
+                  <p className="text-[#6f5344] text-sm text-center -mt-2 mb-4">
+                    Enter your email and we will send you a reset link.
+                  </p>
+                  <div className="relative group">
+                    <Mail className="absolute left-4 top-3.5 text-[#a66a4f] transition-colors group-focus-within:text-[#c0622a]" size={18} />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Admin Email"
+                      className="w-full pl-12 pr-4 py-3 bg-white/60 border border-white/50 rounded-xl text-sm font-medium text-[#2a160f] placeholder:text-[#a66a4f]/60 focus:outline-none focus:ring-2 focus:ring-[#c0622a]/50 focus:bg-white transition-all shadow-inner"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-[#c0622a] to-[#e8956d] hover:shadow-lg hover:shadow-[#c0622a]/20 hover:-translate-y-0.5 text-white font-bold tracking-widest uppercase text-sm py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:hover:translate-y-0"
+                  >
+                    {loading && <Loader2 size={16} className="animate-spin" />}
+                    {loading ? "Sending..." : "Send Reset Link"}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setForgotMode(false)}
+                    className="w-full text-xs text-[#8b674f] hover:text-[#c0622a] font-bold tracking-widest uppercase py-2 transition-colors mt-2"
+                  >
+                    ← Back to Login
+                  </button>
+                </form>
+
               ) : (
-                <Sparkles className="text-white" size={22} />
+                /* Login Form */
+                <form onSubmit={handleLogin} className="space-y-5">
+                  <div className="relative group">
+                    <Mail className="absolute left-4 top-3.5 text-[#a66a4f] transition-colors group-focus-within:text-[#c0622a]" size={18} />
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Admin Email"
+                      className="w-full pl-12 pr-4 py-3 bg-white/60 border border-white/50 rounded-xl text-sm font-medium text-[#2a160f] placeholder:text-[#a66a4f]/60 focus:outline-none focus:ring-2 focus:ring-[#c0622a]/50 focus:bg-white transition-all shadow-inner"
+                    />
+                  </div>
+
+                  <div className="relative group">
+                    <Lock className="absolute left-4 top-3.5 text-[#a66a4f] transition-colors group-focus-within:text-[#c0622a]" size={18} />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Password"
+                      className="w-full pl-12 pr-12 py-3 bg-white/60 border border-white/50 rounded-xl text-sm font-medium text-[#2a160f] placeholder:text-[#a66a4f]/60 focus:outline-none focus:ring-2 focus:ring-[#c0622a]/50 focus:bg-white transition-all shadow-inner"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-3.5 text-[#a66a4f] hover:text-[#c0622a] transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+
+                  {/* Forgot Password Link */}
+                  <div className="text-right -mt-2">
+                    <button
+                      type="button"
+                      onClick={() => setForgotMode(true)}
+                      className="text-xs text-[#a66a4f] hover:text-[#c0622a] font-bold tracking-wider transition-colors"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-[#c0622a] to-[#e8956d] hover:shadow-lg hover:shadow-[#c0622a]/20 hover:-translate-y-0.5 text-white font-bold tracking-widest uppercase text-sm py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-60 disabled:hover:translate-y-0"
+                  >
+                    {loading && <Loader2 size={16} className="animate-spin" />}
+                    {loading ? "Logging in..." : "Login to Dashboard"}
+                  </button>
+                </form>
               )}
             </div>
-            <h1 className="text-2xl font-bold text-gray-800">
-              {forgotMode ? "Reset Password" : "Admin Login"}
-            </h1>
-            <p className="text-gray-400 text-sm mt-1">Aradhya Collection Admin Panel</p>
           </div>
-
-          {/* Reset sent confirmation */}
-          {resetSent ? (
-            <div className="text-center space-y-4">
-              <div className="bg-green-50 border border-green-200 rounded-xl p-4">
-                <p className="text-green-700 text-sm font-medium">Reset email sent!</p>
-                <p className="text-green-600 text-xs mt-1">
-                  Check your inbox at <strong>{email}</strong> and follow the link to reset your password.
-                </p>
-              </div>
-              <button
-                onClick={() => { setForgotMode(false); setResetSent(false); }}
-                className="text-sm text-rose-500 hover:text-rose-700 font-medium"
-              >
-                ← Back to Login
-              </button>
-            </div>
-
-          ) : forgotMode ? (
-            /* Forgot Password Form */
-            <form onSubmit={handleForgotPassword} className="space-y-4">
-              <p className="text-gray-500 text-xs text-center -mt-2 mb-3">
-                Enter your email and we will send you a reset link.
-              </p>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={16} />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Admin Email"
-                  className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-400"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-60"
-              >
-                {loading && <Loader2 size={16} className="animate-spin" />}
-                {loading ? "Sending..." : "Send Reset Link"}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setForgotMode(false)}
-                className="w-full text-sm text-gray-400 hover:text-gray-600 py-1 transition-colors"
-              >
-                ← Back to Login
-              </button>
-            </form>
-
-          ) : (
-            /* Login Form */
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={16} />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Admin Email"
-                  className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-400"
-                />
-              </div>
-
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={16} />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  className="w-full pl-9 pr-10 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-rose-400"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
-              </div>
-
-              {/* Forgot Password Link */}
-              <div className="text-right -mt-1">
-                <button
-                  type="button"
-                  onClick={() => setForgotMode(true)}
-                  className="text-xs text-rose-500 hover:text-rose-700 font-medium transition-colors"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all disabled:opacity-60"
-              >
-                {loading && <Loader2 size={16} className="animate-spin" />}
-                {loading ? "Logging in..." : "Login"}
-              </button>
-            </form>
-          )}
         </div>
-      </div>
       </div>
     </div>
   );

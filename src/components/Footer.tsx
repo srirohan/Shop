@@ -54,7 +54,8 @@ export default async function Footer() {
               { name: "Ladies Suit",       slug: "ladies-suit",       emoji: "👗" },
               { name: "Home Decor",        slug: "home-decor",        emoji: "🏡" },
               { name: "Hair Accessories",  slug: "hair-accessories",  emoji: "✂️" },
-              { name: "Ladies Purse",      slug: "lady-purse",        emoji: "👜" },
+              { name: "Ladies Purse",      slug: "ladies-purse",      emoji: "👜" },
+              { name: "Handcrafts",        slug: "handcrafts",        emoji: "🏺" },
             ].map((item) => (
               <Link
                 key={item.slug}
